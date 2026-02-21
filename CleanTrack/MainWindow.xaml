@@ -21,6 +21,7 @@
                 
             </Grid>
         </TabItem>
+        
         <!-- JOBS -->
         <TabItem Name="Jobs" Header="Jobs" Width="Auto">
             <Grid Margin="16">
@@ -30,7 +31,7 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                
+
                 <!--TOP ROW - search & filter & date range -->
                 <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Left">
                     <TextBox Width="200" Margin="0,0,8,8" Text="Search Jobs..."/>
@@ -56,7 +57,7 @@
                         <ComboBoxItem Content="All"/>
                     </ComboBox>
                 </StackPanel>
-                
+
                 <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Left">
                     <!--date range (FROM)-->
                     <Label>From:</Label>
@@ -78,21 +79,58 @@
                     <Button Content="Delete" Margin="0,0,8,0" Background="#FF9E0808"/>
                     <Button Content="View Details"></Button>
                 </StackPanel>
+            </Grid>
+        </TabItem>
+        
+        <!-- CLIENTS -->
+        <TabItem Name="Clients" Header="Clients" Width="Auto">
+            <Grid Margin="16">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
+                <!--TOP ROW - search & filter  -->
+                <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Left">
+                    <TextBox Width="200" Margin="0,0,8,8" Text="Search Clients..."/>
 
+                    <!--job type filter-->
+                    <ComboBox Width="150" Margin="0,0,8,8">
+                        <ComboBoxItem Content="All"/>
+                        <ComboBoxItem Content="Scheduled"/>
+                        <ComboBoxItem Content="In Progress"/>
+                        <ComboBoxItem Content="Completed"/>
+                        <ComboBoxItem Content="Cancelled"/>
+                    </ComboBox>
+                </StackPanel>
+
+                <!--MAIN SECTION - List of results -->
+                <ListBox x:Name="lbxClients" Grid.Row="2" Margin="0,0,0,8"/>
+
+                <!--BOTTOM ROW - action buttons - add/edit/delete/view details/customer count-->
+                <StackPanel Grid.Row="3" Orientation="Horizontal">
+                    <Button Content="New Client" Margin="0,0,8,0"></Button>
+                    <Button Content="Edit" Margin="0,0,8,0"></Button>
+                    <Button Content="Delete" Margin="0,0,8,0" Background="#FF9E0808"/>
+                    <Button Content="View Details"></Button>
+                </StackPanel>
             </Grid>
 
         </TabItem>
 
-        <TabItem Name="Clients" Header="Clients" Width="Auto">
-
-        </TabItem>
+        <!-- EMPLOYEES -->
         <TabItem Name="Employees" Header="Employees" Width="Auto">
 
         </TabItem>
+
+        <!-- CALENDAR -->
         <TabItem Name="Calendar" Header="Calendar" Width="Auto">
 
         </TabItem>
+
+        <!-- REPORTTS -->
         <TabItem Name="Reports" Header="Reports" Width="Auto">
 
         </TabItem>
