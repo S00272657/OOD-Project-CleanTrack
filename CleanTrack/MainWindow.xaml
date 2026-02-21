@@ -26,11 +26,58 @@
             <Grid Margin="16">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <!--TOP ROW - search & filter & date range -->
                 
+                <!--TOP ROW - search & filter & date range -->
+                <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Left">
+                    <TextBox Width="200" Margin="0,0,8,8" Text="Search Jobs..."/>
+
+                    <!--job status filter-->
+                    <ComboBox Width="150" Margin="0,0,8,8">
+                        <ComboBoxItem Content="All"/>
+                        <ComboBoxItem Content="Scheduled"/>
+                        <ComboBoxItem Content="In Progress"/>
+                        <ComboBoxItem Content="Completed"/>
+                        <ComboBoxItem Content="Cancelled"/>
+                    </ComboBox>
+                    <!--job type filter-->
+                    <ComboBox Width="150" Margin="0,0,8,8">
+                        <ComboBoxItem Content="All"/>
+                        <ComboBoxItem Content="House Cleaning"/>
+                        <ComboBoxItem Content="Window Cleaning"/>
+                        <ComboBoxItem Content="Upholstery Cleaning"/>
+                        <ComboBoxItem Content="After-Builder Cleaning"/>
+                    </ComboBox>
+                    <!--employee filter-->
+                    <ComboBox Width="150" Margin="0,0,8,8">
+                        <ComboBoxItem Content="All"/>
+                    </ComboBox>
+                </StackPanel>
+                
+                <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Left">
+                    <!--date range (FROM)-->
+                    <Label>From:</Label>
+                    <DatePicker Width="150" Margin="0,0,8,8"/>
+
+                    <!--date range (TO)-->
+                    <Label>To:</Label>
+                    <DatePicker Width="150" Margin="0,0,8,8"/>
+
+                </StackPanel>
+
+                <!--MAIN SECTION - List of results -->
+                <ListBox x:Name="lbxJobs" Grid.Row="2" Margin="0,0,0,8"/>
+
+                <!--BOTTOM ROW - action buttons - add/edit/delete/view details/summary-->
+                <StackPanel Grid.Row="3" Orientation="Horizontal">
+                    <Button Content="Add Job" Margin="0,0,8,0"></Button>
+                    <Button Content="Edit" Margin="0,0,8,0"></Button>
+                    <Button Content="Delete" Margin="0,0,8,0" Background="#FF9E0808"/>
+                    <Button Content="View Details"></Button>
+                </StackPanel>
 
 
             </Grid>

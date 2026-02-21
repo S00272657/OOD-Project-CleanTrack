@@ -23,7 +23,25 @@ namespace CleanTrack
         public MainWindow()
         {
             InitializeComponent();
+            lbxJobs.ItemsSource = cleaningJobs;
         }
+
+        public List<string> cleaningJobs = new List<string>
+        {
+            "Office Deep Cleaning - 2026-02-10",
+            "Carpet Steam Cleaning - 2026-02-12",
+            "Window Cleaning (Exterior) - 2026-02-14",
+            "Post-Construction Cleanup - 2026-02-15",
+            "Residential Kitchen Deep Clean - 2026-02-18",
+            "Warehouse Floor Scrubbing - 2026-02-20",
+            "Office Deep Cleaning - 2026-02-10",
+            "Carpet Steam Cleaning - 2026-02-12",
+            "Window Cleaning (Exterior) - 2026-02-14",
+            "Post-Construction Cleanup - 2026-02-15",
+            "Residential Kitchen Deep Clean - 2026-02-18",
+            "Warehouse Floor Scrubbing - 2026-02-20"
+        };
+
 
     }
 }
