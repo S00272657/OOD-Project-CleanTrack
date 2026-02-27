@@ -6,22 +6,11 @@
         xmlns:local="clr-namespace:CleanTrack"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="CleanTrack" Height="450" Width="800">
-    
-    
+        Title="CleanTrack" Height="400" Width="800">
+
+
     <TabControl>
-        <!--DASHBOARD-->
-        <TabItem Name="Dashoard" Header="Dashoard" Width="Auto">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="15*"/>
-                    <RowDefinition Height="85*"/>
-                </Grid.RowDefinitions>
-                
-                
-            </Grid>
-        </TabItem>
-        
+
         <!-- JOBS -->
         <TabItem Name="Jobs" Header="Jobs" Width="Auto">
             <Grid Margin="16">

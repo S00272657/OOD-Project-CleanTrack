@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36930.0 d17.14
+VisualStudioVersion = 17.14.36930.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanTrack", "CleanTrack\CleanTrack.csproj", "{76FF8908-F108-4E8B-A23B-2BD1F4383D87}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataManagement", "DataManagement\DataManagement.csproj", "{F7386F4E-A7C3-41B1-B566-1E022D23B0B6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{76FF8908-F108-4E8B-A23B-2BD1F4383D87}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{76FF8908-F108-4E8B-A23B-2BD1F4383D87}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{76FF8908-F108-4E8B-A23B-2BD1F4383D87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7386F4E-A7C3-41B1-B566-1E022D23B0B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7386F4E-A7C3-41B1-B566-1E022D23B0B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7386F4E-A7C3-41B1-B566-1E022D23B0B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7386F4E-A7C3-41B1-B566-1E022D23B0B6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

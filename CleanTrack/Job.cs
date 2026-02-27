@@ -1,0 +1,54 @@
+﻿using CleanTrack;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace CleanTrack
+{
+    public class Job
+    {
+        public int JobId { get; set; }
+        public string JobType { get; set; }
+        public decimal Price { get; set; }
+        public DateTime Date { get; set; }
+        public string Status { get; set; }        // Pending/Completed/Cancelled
+        public string Address { get; set; }
+        public string JobDescription { get; set; }
+        public string TimeTaken { get; set; }
+
+        //foreign key to client & one client per job
+        public int ClientId { get; set; }
+        public virtual Client Client { get; set; }
+
+        // list of employee(s) (many-to-one)
+        public virtual List<Employee> Employees { get; set; }
+
+
+        // constructors
+        public Job()
+        {
+            Status = "Booked";
+            Date = DateTime.Now;
+            Employees = new List<Employee>();
+        }
+
+        public Job(string jobType, decimal price, DateTime date, string address, int clientId)
+        {
+            JobType = jobType;
+            Price = price;
+            Date = date;
+            Address = address;
+            ClientId = clientId;
+            Status = "Booked";
+            Employees = new List<Employee>();
+        }
+
+        //methods
+
+
+    }
+}
+
+
