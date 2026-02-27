@@ -20,6 +20,11 @@ namespace CleanTrack
         public bool IsActive { get; set; }
         public virtual List<Job> Jobs { get; set; } // list of jobs (one-to-many)
 
+        public string FullName
+        {
+            get { return $"{FirstName} {LastName}"; }
+        }
+
 
         //constructor
         public Client()

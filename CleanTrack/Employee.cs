@@ -18,6 +18,10 @@ namespace CleanTrack
         public bool IsActive { get; set; }
         //jobs theyve worked on (mant-to-one)
         public virtual List<Job> Jobs { get; set; }
+        public string FullName
+        {
+            get { return $"{FirstName} {LastName}"; }
+        }
 
         // constructors
         public Employee()
