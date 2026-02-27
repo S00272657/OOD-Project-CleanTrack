@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:CleanTrack"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="CleanTrack" Height="400" Width="800">
+        Title="CleanTrack" Height="600" Width="1050">
 
 
     <TabControl>
@@ -22,11 +22,15 @@
                 </Grid.RowDefinitions>
 
                 <!--TOP ROW - search & filter & date range -->
-                <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Left">
-                    <TextBox Width="200" Margin="0,0,8,8" Text="Search Jobs..."/>
+                <WrapPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Left">
+                    <TextBox Width="200" Margin="0,0,8,8"
+                             materialDesign:HintAssist.Hint="Search jobs..."
+                             Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
 
                     <!--job status filter-->
-                    <ComboBox Width="150" Margin="0,0,8,8">
+                    <ComboBox Width="150" Margin="0,0,8,8"
+                              materialDesign:HintAssist.Hint="Status"
+                              Style="{StaticResource MaterialDesignOutlinedComboBox}">
                         <ComboBoxItem Content="All"/>
                         <ComboBoxItem Content="Scheduled"/>
                         <ComboBoxItem Content="In Progress"/>
@@ -34,7 +38,9 @@
                         <ComboBoxItem Content="Cancelled"/>
                     </ComboBox>
                     <!--job type filter-->
-                    <ComboBox Width="150" Margin="0,0,8,8">
+                    <ComboBox Width="150" Margin="0,0,8,8"
+                              materialDesign:HintAssist.Hint="Job Type"
+                              Style="{StaticResource MaterialDesignOutlinedComboBox}">
                         <ComboBoxItem Content="All"/>
                         <ComboBoxItem Content="House Cleaning"/>
                         <ComboBoxItem Content="Window Cleaning"/>
@@ -42,24 +48,39 @@
                         <ComboBoxItem Content="After-Builder Cleaning"/>
                     </ComboBox>
                     <!--employee filter-->
-                    <ComboBox Width="150" Margin="0,0,8,8">
+                    <ComboBox Width="150" Margin="0,0,8,8"
+                              materialDesign:HintAssist.Hint="Employee"
+                              Style="{StaticResource MaterialDesignOutlinedComboBox}">
                         <ComboBoxItem Content="All"/>
                     </ComboBox>
-                </StackPanel>
 
-                <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Left">
                     <!--date range (FROM)-->
-                    <Label>From:</Label>
-                    <DatePicker Width="150" Margin="0,0,8,8"/>
+                    <DatePicker Width="150" Margin="0,0,8,8"
+                                materialDesign:HintAssist.Hint="From"
+                                Style="{StaticResource MaterialDesignOutlinedDatePicker}"/>
 
                     <!--date range (TO)-->
-                    <Label>To:</Label>
-                    <DatePicker Width="150" Margin="0,0,8,8"/>
+                    <DatePicker Width="150" Margin="0,0,8,8"
+                        materialDesign:HintAssist.Hint="To"
+                        Style="{StaticResource MaterialDesignOutlinedDatePicker}"/> 
 
-                </StackPanel>
+                </WrapPanel>
 
                 <!--MAIN SECTION - List of results -->
-                <ListBox x:Name="lbxJobs" Grid.Row="2" Margin="0,0,0,8"/>
+                <DataGrid x:Name="dgJobs" Grid.Row="2" Margin="0,0,0,8"
+                    AutoGenerateColumns="False"
+                    CanUserAddRows="False"
+                    IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Date" Binding="{Binding Date, StringFormat=dd/MM/yyyy}" Width="Auto"/>
+                        <DataGridTextColumn Header="Job Type" Binding="{Binding JobType}" Width="Auto"/>
+                        <DataGridTextColumn Header="Address" Binding="{Binding Address}" Width="Auto"/>
+                        <DataGridTextColumn Header="Price" Binding="{Binding Price, StringFormat=€{0:F2}}" Width="Auto"/>
+                        <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="Auto"/>
+                        <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="Auto"/>
+                        <DataGridTextColumn Header="Assigned Employee" Binding="{Binding AssignedEmployee}" Width="*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
 
                 <!--BOTTOM ROW - action buttons - add/edit/delete/view details/summary-->
                 <StackPanel Grid.Row="3" Orientation="Horizontal">

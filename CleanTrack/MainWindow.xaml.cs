@@ -23,41 +23,27 @@ namespace CleanTrack
         public MainWindow()
         {
             InitializeComponent();
-            lbxJobs.ItemsSource = cleaningJobs;
-            lbxClients.ItemsSource = customers;
+           dgJobs.ItemsSource = jobs;
         }
 
-        public List<string> cleaningJobs = new List<string>
+        //array of jobs for ui testing
+        List<Job> jobs = new List<Job>
         {
-            "Office Deep Cleaning - 2026-02-10",
-            "Carpet Steam Cleaning - 2026-02-12",
-            "Window Cleaning (Exterior) - 2026-02-14",
-            "Post-Construction Cleanup - 2026-02-15",
-            "Residential Kitchen Deep Clean - 2026-02-18",
-            "Warehouse Floor Scrubbing - 2026-02-20",
-            "Office Deep Cleaning - 2026-02-10",
-            "Carpet Steam Cleaning - 2026-02-12",
-            "Window Cleaning (Exterior) - 2026-02-14",
-            "Post-Construction Cleanup - 2026-02-15",
-            "Residential Kitchen Deep Clean - 2026-02-18",
-            "Warehouse Floor Scrubbing - 2026-02-20"
+            new Job { JobId = 1, JobType = "House", Price = 120.00m, Date = DateTime.Now, Address = "12 Oak Street, Dublin", Status = "Completed", JobDescription = "Full house clean", ClientId = 1 },
+            new Job { JobId = 2, JobType = "Carpet", Price = 85.00m, Date = DateTime.Now.AddDays(-2), Address = "45 Maple Avenue, Cork", Status = "Pending", JobDescription = "Living room carpet clean", ClientId = 1 },
+            new Job { JobId = 3, JobType = "Window", Price = 60.00m, Date = DateTime.Now.AddDays(-4), Address = "8 Pine Road, Galway", Status = "Completed", JobDescription = "External windows", ClientId = 1 },
+            new Job { JobId = 4, JobType = "House", Price = 150.00m, Date = DateTime.Now.AddDays(-6), Address = "3 Elm Drive, Limerick", Status = "Cancelled", JobDescription = "Deep clean", ClientId = 1 },
+            new Job { JobId = 5, JobType = "Carpet", Price = 95.00m, Date = DateTime.Now.AddDays(1), Address = "22 Birch Lane, Waterford", Status = "Pending", JobDescription = "Stairs and landing", ClientId = 1 }
         };
-
-        List<string> customers = new List<string>
-{
-    "John Smith | 555-123-4567 | john.smith@email.com | 12 Oak Street, Boston, MA | 5 |  $1,250 |  2026-01-15",
-    "Sarah Johnson | 555-987-6543 | sarah.j@email.com | 44 Pine Ave, Chicago, IL |  3 |  $780 |  2026-02-02",
-    "Michael Brown | 555-222-3344 | mbrown@email.com | 89 Elm Road, Dallas, TX |  8 |  $2,340 | Last Job: 2026-02-10",
-    "Emily Davis | 555-111-9988 | emily.d@email.com | 15 Sunset Blvd, Miami, FL |  2 |  $420 | Last Job: 2025-12-18",
-    "David Wilson | 555-444-7788 | dwilson@email.com | 230 Lake View Dr, Denver, CO |  6 | Total Spent: $1,560 | Last Job: 2026-01-28",
-    "Jessica Taylor | 555-666-1212 | jess.t@email.com | 9 Maple Street, Seattle, WA |  4 | Total Spent: $980 | Last Job: 2026-02-05",
-    "Chris Anderson | 555-333-4455 | canderson@email.com | 72 River Rd, Atlanta, GA |  7 | Total Spent: $1,890 | Last Job: 2026-02-12",
-    "Amanda Thomas | 555-777-8899 | amanda.t@email.com | 5 Hillcrest Ave, Phoenix, AZ |  1 | Total Spent: $210 | Last Job: 2025-11-30",
-    "Daniel Martinez | 555-888-2323 | dmartinez@email.com | 310 Forest Lane, Austin, TX |  9 | Total Spent: $2,760 | Last Job: 2026-02-14",
-    "Olivia Hernandez | 555-999-4545 | olivia.h@email.com | 18 Bay Street, San Diego, CA |  3 | Total Spent: $840 | Last Job: 2026-01-22",
-    "Matthew Lee | 555-101-2020 | mlee@email.com | 66 Cedar Park, Portland, OR | Total Jobs: 5 |  $1,375 | Last Job: 2026-02-01",
-    "Sophia Walker | 555-303-4040 | sophia.w@email.com | 27 Greenway Blvd, Charlotte, NC | Total Jobs: 4 | Total Spent: $1,020 | Last Job: 2026-02-16"
-};
+        //array of clients for ui testing
+        List<Client> clients = new List<Client>
+        {
+            new Client { ClientId = 1, FirstName = "John", LastName = "Murphy", PhoneNumber = "0851234567", Email = "john.murphy@gmail.com", Address = "12 Oak Street", City = "Dublin", Eircode = "D01 AB12", IsActive = true },
+            new Client { ClientId = 2, FirstName = "Sarah", LastName = "O'Brien", PhoneNumber = "0879876543", Email = "sarah.obrien@gmail.com", Address = "45 Maple Avenue", City = "Cork", Eircode = "T12 CD34", IsActive = true },
+            new Client { ClientId = 3, FirstName = "James", LastName = "Kelly", PhoneNumber = "0861112233", Email = "james.kelly@gmail.com", Address = "8 Pine Road", City = "Galway", Eircode = "H91 EF56", IsActive = true},
+            new Client { ClientId = 4, FirstName = "Emma", LastName = "Doyle", PhoneNumber = "0832223344", Email = "emma.doyle@gmail.com", Address = "3 Elm Drive", City = "Limerick", Eircode = "V94 GH78", IsActive = false},
+            new Client { ClientId = 5, FirstName = "Conor", LastName = "Walsh", PhoneNumber = "0853334455", Email = "conor.walsh@gmail.com", Address = "22 Birch Lane", City = "Waterford", Eircode = "X91 IJ90", IsActive = true}
+        };
 
 
     }
