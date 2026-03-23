@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:CleanTrack"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="CleanTrack" Height="600" Width="1050" Loaded="MainWindow1_Loaded">
+        Title="CleanTrack" Height="600" Width="1150" Loaded="MainWindow1_Loaded">
 
 
     <TabControl>
@@ -24,13 +24,13 @@
                 <!--TOP ROW - search & filter & date range -->
                 <WrapPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Left">
                     <TextBox x:Name="tbxSearchJobs" Width="200" Margin="0,0,8,8"
-                             materialDesign:HintAssist.Hint="Search jobs..."
-                             Style="{StaticResource MaterialDesignOutlinedTextBox}" TextChanged="tbxSearchJobs_TextChanged"/>
+                         materialDesign:HintAssist.Hint="Search jobs..."
+                         Style="{StaticResource MaterialDesignOutlinedTextBox}" TextChanged="tbxSearchJobs_TextChanged"/>
 
                     <!--job status filter-->
                     <ComboBox x:Name="cbxStatusFilter" Width="150" Margin="0,0,8,8"
-                              materialDesign:HintAssist.Hint="Status"
-                              Style="{StaticResource MaterialDesignOutlinedComboBox}" SelectionChanged="cbxStatusFilter_SelectionChanged">
+                          materialDesign:HintAssist.Hint="Status"
+                          Style="{StaticResource MaterialDesignOutlinedComboBox}" SelectionChanged="cbxStatusFilter_SelectionChanged">
                         <ComboBoxItem Content="All"/>
                         <ComboBoxItem Content="Scheduled"/>
                         <ComboBoxItem Content="In Progress"/>
@@ -39,8 +39,8 @@
                     </ComboBox>
                     <!--job type filter-->
                     <ComboBox x:Name="cbxJobTypeFilter" Width="150" Margin="0,0,8,8"
-                              materialDesign:HintAssist.Hint="Job Type"
-                              Style="{StaticResource MaterialDesignOutlinedComboBox}" SelectionChanged="cbxJobTypeFilter_SelectionChanged">
+                          materialDesign:HintAssist.Hint="Job Type"
+                          Style="{StaticResource MaterialDesignOutlinedComboBox}" SelectionChanged="cbxJobTypeFilter_SelectionChanged">
                         <ComboBoxItem Content="All"/>
                         <ComboBoxItem Content="House Cleaning"/>
                         <ComboBoxItem Content="Window Cleaning"/>
@@ -49,20 +49,22 @@
                     </ComboBox>
                     <!--employee filter-->
                     <ComboBox x:Name="cbxEmployeeFilter" Width="150" Margin="0,0,8,8"
-                              materialDesign:HintAssist.Hint="Employee"
-                              Style="{StaticResource MaterialDesignOutlinedComboBox}" SelectionChanged="cbxEmployeeFilter_SelectionChanged">
+                          materialDesign:HintAssist.Hint="Employee"
+                          Style="{StaticResource MaterialDesignOutlinedComboBox}" SelectionChanged="cbxEmployeeFilter_SelectionChanged">
                         <ComboBoxItem Content="All"/>
                     </ComboBox>
 
                     <!--date range (FROM)-->
                     <DatePicker x:Name="dpFromDateFilter" Width="150" Margin="0,0,8,8"
-                                materialDesign:HintAssist.Hint="From"
-                                Style="{StaticResource MaterialDesignOutlinedDatePicker}" SelectedDateChanged="dpFromDateFilter_SelectedDateChanged"/>
+                            materialDesign:HintAssist.Hint="From"
+                            Style="{StaticResource MaterialDesignOutlinedDatePicker}" SelectedDateChanged="dpFromDateFilter_SelectedDateChanged"/>
 
                     <!--date range (TO)-->
                     <DatePicker x:Name="dpToDateFilter" Width="150" Margin="0,0,8,8"
                         materialDesign:HintAssist.Hint="To"
-                        Style="{StaticResource MaterialDesignOutlinedDatePicker}" SelectedDateChanged="dpToDateFilter_SelectedDateChanged"/> 
+                        Style="{StaticResource MaterialDesignOutlinedDatePicker}" SelectedDateChanged="dpToDateFilter_SelectedDateChanged"/>
+
+                    <Button x:Name="btnResetJobFilters" Content="Reset Filters" Margin="0,0,8,8" Click="btnResetJobFilters_Click" VerticalAlignment="Center"/>
 
                 </WrapPanel>
 
@@ -80,16 +82,19 @@
                         <DataGridTextColumn Header="Address" Binding="{Binding Address}" Width="Auto"/>
                         <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="Auto"/>
                         <DataGridTextColumn Header="Time taken" Binding="{Binding TimeTaken}" Width="Auto"/>
-                        <DataGridTextColumn Header="Assigned Employee" Binding="{Binding AssignedEmployee}" Width="*"/>
+                        <DataGridTextColumn Header="Assigned Employees" Binding="{Binding AssignedEmployees}" Width="*"/>
                     </DataGrid.Columns>
                 </DataGrid>
 
                 <!--BOTTOM ROW - action buttons - add/edit/delete/view details/summary-->
                 <StackPanel Grid.Row="3" Orientation="Horizontal">
                     <Button x:Name="btnAddJob" Content="Add Job" Margin="0,0,8,0" Click="btnAddJob_Click"></Button>
-                    <Button Content="Edit" Margin="0,0,8,0"></Button>
-                    <Button Content="Delete" Margin="0,0,8,0" Background="#FF9E0808"/>
-                    <Button Content="View Details"></Button>
+                    <Button x:Name="btnEditJob" Content="Edit" Margin="0,0,8,0" Click="btnEditJob_Click"
+                            Style="{StaticResource MaterialDesignOutlinedButton}"/>
+                    <Button x:Name="btnDeleteJob" Content="Delete" Margin="0,0,8,0" Background="#FF9E0808" Click="btnDeleteJob_Click" BorderBrush="#FF9E0808"/>
+                    <Button x:Name="btnViewJobDetails" Content="View Details" Margin="0,0,8,0" Click="btnViewJobDetails_Click"></Button>
+                    
+
                 </StackPanel>
             </Grid>
         </TabItem>
@@ -141,7 +146,7 @@
                     <Button Content="New Client" Margin="0,0,8,0"></Button>
                     <Button Content="Edit" Margin="0,0,8,0"></Button>
                     <Button Content="Delete" Margin="0,0,8,0" Background="#FF9E0808"/>
-                    <Button Content="View Details"></Button>
+                    <Button Content="View Details"  Margin="0,0,8,0"></Button>
                 </StackPanel>
             </Grid>
 
@@ -149,7 +154,74 @@
 
         <!-- EMPLOYEES -->
         <TabItem Name="Employees" Header="Employees" Width="Auto">
+            <Grid Margin="16">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
+                <!-- TOP ROW - search & filters -->
+                <WrapPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Left">
+                    <TextBox x:Name="tbxSearchEmployees" Width="200" Margin="0,0,8,8"
+                         materialDesign:HintAssist.Hint="Search employees..."
+                         Style="{StaticResource MaterialDesignOutlinedTextBox}" SelectionChanged="tbxSearchEmployees_SelectionChanged" />
+
+                    <ComboBox x:Name="cbxRoleFilter" Width="150" Margin="0,0,8,8"
+                          materialDesign:HintAssist.Hint="Role"
+                          Style="{StaticResource MaterialDesignOutlinedComboBox}" SelectionChanged="cbxRoleFilter_SelectionChanged">
+                        <ComboBoxItem Content="All"/>
+                        <ComboBoxItem Content="Cleaner"/>
+                        <ComboBoxItem Content="Supervisor"/>
+                    </ComboBox>
+
+                    <ComboBox x:Name="cbxActiveFilter" Width="150" Margin="0,0,8,8"
+                          materialDesign:HintAssist.Hint="Status"
+                          Style="{StaticResource MaterialDesignOutlinedComboBox}" SelectionChanged="cbxActiveFilter_SelectionChanged"
+                         >
+                        <ComboBoxItem Content="All"/>
+                        <ComboBoxItem Content="Active"/>
+                        <ComboBoxItem Content="Inactive"/>
+                    </ComboBox>
+
+                    <Button x:Name="btnResetEmployeeFilters" Content="Reset Filters" Margin="0,0,8,8"
+                        Style="{StaticResource MaterialDesignOutlinedButton}" Click="btnResetEmployeeFilters_Click"
+                        />
+                </WrapPanel>
+
+                <!-- MAIN SECTION - DataGrid -->
+                <DataGrid x:Name="dgEmployees" Grid.Row="1" Margin="0,0,0,8"
+                      AutoGenerateColumns="False"
+                      CanUserAddRows="False"
+                      IsReadOnly="True"
+                      SelectionMode="Single">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Name" Binding="{Binding FullName}" Width="150"/>
+                        <DataGridTextColumn Header="Role" Binding="{Binding Role}" Width="100"/>
+                        <DataGridTextColumn Header="Phone" Binding="{Binding PhoneNumber}" Width="120"/>
+                        <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="*"/>
+                        <DataGridTextColumn Header="Start Date" Binding="{Binding StartDate, StringFormat=dd/MM/yyyy}" Width="100"/>
+                        <DataGridTextColumn Header="Status" Binding="{Binding ActiveStatus}" Width="100"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <!-- BOTTOM ROW - action buttons -->
+                <StackPanel Grid.Row="2" Orientation="Horizontal">
+                    <Button x:Name="btnAddEmployee" Content="Add Employee" Margin="0,0,8,0"
+                        Style="{StaticResource MaterialDesignRaisedButton}" Click="btnAddEmployee_Click"
+                        />
+                    <Button x:Name="btnEditEmployee" Content="Edit" Margin="0,0,8,0"
+                        Style="{StaticResource MaterialDesignOutlinedButton}" Click="btnEditEmployee_Click"
+                        />
+                    <Button x:Name="btnDeleteEmployee" Content="Delete" Margin="0,0,8,0"
+                        Style="{StaticResource MaterialDesignOutlinedButton}"
+                        Foreground="Red" Click="btnDeleteEmployee_Click"
+                        />
+                    <Button x:Name="btnViewEmployeeDetails" Content="View Details"
+                        Style="{StaticResource MaterialDesignOutlinedButton}" Click="btnViewEmployeeDetails_Click"
+                        />
+                </StackPanel>
+            </Grid>
         </TabItem>
 
         <!-- CALENDAR -->

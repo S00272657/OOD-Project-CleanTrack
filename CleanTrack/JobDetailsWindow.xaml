@@ -1,0 +1,103 @@
+﻿<Window x:Class="CleanTrack.JobDetailsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Job Details" Height="700" Width="450"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize">
+
+    <ScrollViewer Margin="16" VerticalScrollBarVisibility="Auto">
+        <StackPanel>
+
+            <!-- Job Details Group -->
+            <GroupBox Header="Job Details" Margin="0,0,0,16">
+                <Grid Margin="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="120"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Job Type:" FontWeight="Bold" Margin="0,4"/>
+                    <TextBlock Grid.Row="0" Grid.Column="1" x:Name="txtJobType" Margin="0,4"/>
+
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Status:" FontWeight="Bold" Margin="0,4"/>
+                    <TextBlock Grid.Row="1" Grid.Column="1" x:Name="txtStatus" Margin="0,4"/>
+
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Date:" FontWeight="Bold" Margin="0,4"/>
+                    <TextBlock Grid.Row="2" Grid.Column="1" x:Name="txtDate" Margin="0,4"/>
+
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Address:" FontWeight="Bold" Margin="0,4"/>
+                    <TextBlock Grid.Row="3" Grid.Column="1" x:Name="txtAddress" Margin="0,4"/>
+
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Price:" FontWeight="Bold" Margin="0,4"/>
+                    <TextBlock Grid.Row="4" Grid.Column="1" x:Name="txtPrice" Margin="0,4"/>
+
+                    <TextBlock Grid.Row="5" Grid.Column="0" Text="Time Taken:" FontWeight="Bold" Margin="0,4"/>
+                    <TextBlock Grid.Row="5" Grid.Column="1" x:Name="txtTimeTaken" Margin="0,4"/>
+
+                    <TextBlock Grid.Row="6" Grid.Column="0" Text="Description:" FontWeight="Bold" Margin="0,4"/>
+                    <TextBlock Grid.Row="6" Grid.Column="1" x:Name="txtDescription" Margin="0,4" TextWrapping="Wrap"/>
+                </Grid>
+            </GroupBox>
+
+            <!-- Client Details Group -->
+            <GroupBox Header="Client Details" Margin="0,0,0,16">
+                <Grid Margin="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="120"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Name:" FontWeight="Bold" Margin="0,4"/>
+                    <TextBlock Grid.Row="0" Grid.Column="1" x:Name="txtClientName" Margin="0,4"/>
+
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Phone:" FontWeight="Bold" Margin="0,4"/>
+                    <TextBlock Grid.Row="1" Grid.Column="1" x:Name="txtClientPhone" Margin="0,4"/>
+
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Email:" FontWeight="Bold" Margin="0,4"/>
+                    <TextBlock Grid.Row="2" Grid.Column="1" x:Name="txtClientEmail" Margin="0,4"/>
+
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Address:" FontWeight="Bold" Margin="0,4"/>
+                    <TextBlock Grid.Row="3" Grid.Column="1" x:Name="txtClientAddress" Margin="0,4"/>
+
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="City:" FontWeight="Bold" Margin="0,4"/>
+                    <TextBlock Grid.Row="4" Grid.Column="1" x:Name="txtClientCity" Margin="0,4"/>
+                </Grid>
+            </GroupBox>
+
+            <!-- Assigned Employees Group -->
+            <GroupBox Header="Assigned Employees" Margin="0,0,0,16">
+                <ListBox x:Name="lbxAssignedEmployees" Margin="8"
+                         IsHitTestVisible="False">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding FullName}"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </GroupBox>
+
+            <!-- Close Button -->
+            <Button Content="Close" HorizontalAlignment="Right"
+                    Style="{StaticResource MaterialDesignOutlinedButton}"
+                    Click="btnClose_Click"/>
+
+        </StackPanel>
+    </ScrollViewer>
+</Window>

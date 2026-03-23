@@ -16,6 +16,8 @@ namespace CleanTrack
         public string Role { get; set; } //cleaner/supervisor/manager
         public DateTime StartDate { get; set; }
         public bool IsActive { get; set; }
+        public string ActiveStatus => IsActive ? "Active" : "Inactive";
+
         //jobs theyve worked on (mant-to-one)
         public virtual List<Job> Jobs { get; set; }
         public string FullName
