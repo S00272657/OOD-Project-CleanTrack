@@ -1,19 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.Entity.Core.Objects;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+
 
 namespace CleanTrack
 {
@@ -22,6 +17,8 @@ namespace CleanTrack
     /// </summary>
     public partial class MainWindow : Window
     {
+        private AppDbContext db = new AppDbContext();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -32,13 +29,21 @@ namespace CleanTrack
             LoadData();
         }
 
+        private void LoadData()
+        {
+            dgJobs.ItemsSource = db.Jobs.Include("Client").Include("Employees").ToList();
+            dgClients.ItemsSource = db.Clients.ToList();
+            dgEmployees.ItemsSource = db.Employees.ToList();
+        }
+
+
         #region JobsTab
         //JOB OBJECT: JobId, JobType, Price, Date, Status, Address, JobDescription, TimeTaken, ClientId, Client, Employees
         //I want to display: Date, JobType, Price, Client.Name, Status, Address, JobDescription, timetaken, employee
 
         private void FilterJobResults()
         {
-            var filtered = jobs.AsQueryable();
+            var filtered = db.Jobs.AsQueryable();
 
             //filter by search 
             string search = tbxSearchJobs.Text.ToLower();
@@ -47,7 +52,8 @@ namespace CleanTrack
             {
                 filtered = filtered.Where(j =>
                     j.Address.ToLower().Contains(search) ||
-                    j.Client.FullName.ToLower().Contains(search) ||
+                    j.Client.FirstName.ToLower().Contains(search) ||
+                    j.Client.LastName.ToLower().Contains(search) ||
                     j.JobDescription.ToLower().Contains(search));
             }
 
@@ -77,7 +83,9 @@ namespace CleanTrack
             {
                 filtered = filtered.Where(j => j.Date <= dpToDateFilter.SelectedDate.Value);
             }
+
             dgJobs.ItemsSource = null;
+
             dgJobs.ItemsSource = filtered.ToList();
         }
 
@@ -119,12 +127,13 @@ namespace CleanTrack
         #region ActionButtons
         private void btnAddJob_Click(object sender, RoutedEventArgs e)
         {
-            AddJobWindow addJobWindow = new AddJobWindow(clients.ToList(), employees.ToList());
+            AddJobWindow addJobWindow = new AddJobWindow(db.Clients.ToList(), db.Employees.ToList());
             addJobWindow.Owner = this;
 
             if (addJobWindow.ShowDialog() == true)
             {
-                jobs.Add(addJobWindow.NewJob);
+                db.Jobs.Add(addJobWindow.NewJob);
+                db.SaveChanges();
                 FilterJobResults();
             }
         }
@@ -148,12 +157,9 @@ namespace CleanTrack
 
             if (result == MessageBoxResult.Yes)
             {
-                jobs.Remove(selectedJob);
+                db.Jobs.Remove(selectedJob);
+                db.SaveChanges();
                 FilterJobResults();
-
-                // when db is connected:
-                // db.Jobs.Remove(selectedJob);
-                // db.SaveChanges();
             }
         }
         private void btnEditJob_Click(object sender, RoutedEventArgs e)
@@ -166,16 +172,13 @@ namespace CleanTrack
 
             Job selectedJob = dgJobs.SelectedItem as Job;
 
-            EditJobWindow editJobWindow = new EditJobWindow(selectedJob, clients.ToList(), employees.ToList());
+            EditJobWindow editJobWindow = new EditJobWindow(selectedJob, db.Clients.ToList(), db.Employees.ToList());
             editJobWindow.Owner = this;
 
             if (editJobWindow.ShowDialog() == true)
             {
-                // job object is updated so just refresh display
+                db.SaveChanges();
                 FilterJobResults();
-
-                // when db is connected:
-                // db.SaveChanges();
             }
         }
         private void btnViewJobDetails_Click(object sender, RoutedEventArgs e)
@@ -199,8 +202,6 @@ namespace CleanTrack
             cbxEmployeeFilter.SelectedIndex = 0;
             dpFromDateFilter.SelectedDate = null;
             dpToDateFilter.SelectedDate = null;
-
-            dgJobs.ItemsSource = jobs;
         }
         #endregion
         #endregion
@@ -214,7 +215,7 @@ namespace CleanTrack
         #region EmployeesTab
         private void FilterEmployeeResults()
         {
-            var filtered = employees.AsQueryable();
+            var filtered = db.Employees.AsQueryable();
 
             // filter by search
             string search = tbxSearchEmployees.Text.ToLower();
@@ -293,12 +294,9 @@ namespace CleanTrack
 
             if (result == MessageBoxResult.Yes)
             {
-                employees.Remove(selectedEmployee);
+                db.Employees.Remove(selectedEmployee);
+                db.SaveChanges();
                 FilterEmployeeResults();
-
-                // when db connected:
-                // _db.Employees.Remove(selectedEmployee);
-                // _db.SaveChanges();
             }
         }
 
@@ -311,44 +309,6 @@ namespace CleanTrack
         #endregion
 
 
-
-        private ObservableCollection<Client> clients;
-        private ObservableCollection<Job> jobs;
-        private ObservableCollection<Employee> employees;
-        //DUMMY DATA FOR TESTING
-        private void LoadData()
-        {
-            // clients first
-            clients = new ObservableCollection<Client>
-            {
-                new Client { ClientId = 1, FirstName = "John", LastName = "Murphy", PhoneNumber = "0851234567", Email = "john.murphy@gmail.com", Address = "12 Oak Street", City = "Dublin", Eircode = "D01 AB12", IsActive = true },
-                new Client { ClientId = 2, FirstName = "Sarah", LastName = "O'Brien", PhoneNumber = "0879876543", Email = "sarah.obrien@gmail.com", Address = "45 Maple Avenue", City = "Cork", Eircode = "T12 CD34", IsActive = true },
-                new Client { ClientId = 3, FirstName = "James", LastName = "Kelly", PhoneNumber = "0861112233", Email = "james.kelly@gmail.com", Address = "8 Pine Road", City = "Galway", Eircode = "H91 EF56", IsActive = true },
-                new Client { ClientId = 4, FirstName = "Emma", LastName = "Doyle", PhoneNumber = "0832223344", Email = "emma.doyle@gmail.com", Address = "3 Elm Drive", City = "Limerick", Eircode = "V94 GH78", IsActive = false },
-                new Client { ClientId = 5, FirstName = "Conor", LastName = "Walsh", PhoneNumber = "0853334455", Email = "conor.walsh@gmail.com", Address = "22 Birch Lane", City = "Waterford", Eircode = "X91 IJ90", IsActive = true }
-            };
-
-            // employees second
-            employees = new ObservableCollection<Employee>
-            {
-                new Employee { EmployeeId = 1, FirstName = "Liam", LastName = "Walsh", PhoneNumber = "0851111111", Email = "liam.walsh@cleantrack.com", Role = "Cleaner", IsActive = true, StartDate = new DateTime(2023, 1, 15) },
-                new Employee { EmployeeId = 2, FirstName = "Emma", LastName = "Ryan", PhoneNumber = "0852222222", Email = "emma.ryan@cleantrack.com", Role = "Cleaner", IsActive = true, StartDate = new DateTime(2023, 3, 20) },
-                new Employee { EmployeeId = 3, FirstName = "Conor", LastName = "Byrne", PhoneNumber = "0853333333", Email = "conor.byrne@cleantrack.com", Role = "Supervisor", IsActive = true, StartDate = new DateTime(2022, 6, 1) }
-            };
-
-            // jobs last - can now reference clients by ID
-            jobs = new ObservableCollection<Job>
-            {
-                new Job { JobId = 1, JobType = "House Cleaning", Price = 120.00m, Date = DateTime.Now, Status = "Completed", Address = "12 Oak Street, Dublin", JobDescription = "Full house clean", TimeTaken = "2 hours", ClientId = 1, Client = clients.FirstOrDefault(c => c.ClientId == 1)},
-                new Job { JobId = 2, JobType = "Carpet Cleaning", Price = 85.00m, Date = DateTime.Now.AddDays(-2), Status = "Scheduled", Address = "45 Maple Avenue, Cork", JobDescription = "Living room carpet clean", TimeTaken = "1.5 hours", ClientId = 2, Client = clients.FirstOrDefault(c => c.ClientId == 2)},
-                new Job { JobId = 3, JobType = "Window Cleaning", Price = 60.00m, Date = DateTime.Now.AddDays(-4), Status = "Completed", Address = "8 Pine Road, Galway", JobDescription = "External windows front and back", TimeTaken = "1 hour", ClientId = 3, Client = clients.FirstOrDefault(c => c.ClientId == 3)},
-                new Job { JobId = 4, JobType = "After-Builder Cleaning", Price = 150.00m, Date = DateTime.Now.AddDays(-6), Status = "Cancelled", Address = "3 Elm Drive, Limerick", JobDescription = "Post renovation deep clean", TimeTaken = "3 hours", ClientId = 4, Client = clients.FirstOrDefault(c => c.ClientId == 4)},
-                new Job { JobId = 5, JobType = "Upholstery Cleaning", Price = 95.00m, Date = DateTime.Now.AddDays(1), Status = "Scheduled", Address = "22 Birch Lane, Waterford", JobDescription = "Sofa and armchairs", TimeTaken = "1.5 hours", ClientId = 5, Client = clients.FirstOrDefault(c => c.ClientId == 5)}
-            };
-
-            dgJobs.ItemsSource = jobs;
-            dgClients.ItemsSource = clients;
-        }
 
         
     }
