@@ -71,13 +71,11 @@ namespace CleanTrack
             }
 
             // pre-select assigned employees
-            for (int i = 0; i < lbxEmployees.Items.Count; i++)
+            foreach (Employee emp in lbxEmployees.Items)
             {
-                Employee emp = lbxEmployees.Items[i] as Employee;
                 if (_existingJob.Employees.Any(e => e.EmployeeId == emp.EmployeeId))
-                {
-                    lbxEmployees.SelectedItems.Add(lbxEmployees.Items[i]);
-                }
+
+                    lbxEmployees.SelectedItems.Add(emp);
             }
         }
 

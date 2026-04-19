@@ -1,0 +1,61 @@
+<Window x:Class="CleanTrack.EditEmployeeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Edit Employee" Height="580" Width="450"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize">
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBox x:Name="tbxFirstName" Grid.Row="0" Margin="0,0,0,12"
+                 materialDesign:HintAssist.Hint="First Name *"
+                 Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+
+        <TextBox x:Name="tbxLastName" Grid.Row="1" Margin="0,0,0,12"
+                 materialDesign:HintAssist.Hint="Last Name *"
+                 Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+
+        <TextBox x:Name="tbxPhone" Grid.Row="2" Margin="0,0,0,12"
+                 materialDesign:HintAssist.Hint="Phone Number *"
+                 Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+
+        <TextBox x:Name="tbxEmail" Grid.Row="3" Margin="0,0,0,12"
+                 materialDesign:HintAssist.Hint="Email *"
+                 Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+
+        <ComboBox x:Name="cbxRole" Grid.Row="4" Margin="0,0,0,12"
+                  materialDesign:HintAssist.Hint="Role *"
+                  Style="{StaticResource MaterialDesignOutlinedComboBox}">
+            <ComboBoxItem Content="Cleaner"/>
+            <ComboBoxItem Content="Supervisor"/>
+            <ComboBoxItem Content="Manager"/>
+        </ComboBox>
+
+        <DatePicker x:Name="dpStartDate" Grid.Row="5" Margin="0,0,0,12"
+                    materialDesign:HintAssist.Hint="Start Date *"
+                    Style="{StaticResource MaterialDesignOutlinedDatePicker}"/>
+
+        <CheckBox x:Name="chkIsActive" Grid.Row="6" Content="Active" Margin="0,0,0,12"/>
+
+        <StackPanel Grid.Row="8" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button x:Name="btnCancel" Content="Cancel" Margin="0,0,8,0"
+                    Style="{StaticResource MaterialDesignOutlinedButton}"
+                    Click="btnCancel_Click"/>
+            <Button x:Name="btnSave" Content="Save Changes"
+                    Style="{StaticResource MaterialDesignRaisedButton}"
+                    Click="btnSave_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

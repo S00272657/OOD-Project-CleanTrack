@@ -1,0 +1,62 @@
+<Window x:Class="CleanTrack.AddClientWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Add Client" Height="630" Width="450"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize">
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBox x:Name="tbxFirstName" Grid.Row="0" Margin="0,0,0,12"
+                 materialDesign:HintAssist.Hint="First Name *"
+                 Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+
+        <TextBox x:Name="tbxLastName" Grid.Row="1" Margin="0,0,0,12"
+                 materialDesign:HintAssist.Hint="Last Name *"
+                 Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+
+        <TextBox x:Name="tbxPhone" Grid.Row="2" Margin="0,0,0,12"
+                 materialDesign:HintAssist.Hint="Phone Number *"
+                 Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+
+        <TextBox x:Name="tbxEmail" Grid.Row="3" Margin="0,0,0,12"
+                 materialDesign:HintAssist.Hint="Email *"
+                 Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+
+        <TextBox x:Name="tbxAddress" Grid.Row="4" Margin="0,0,0,12"
+                 materialDesign:HintAssist.Hint="Address *"
+                 Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+
+        <TextBox x:Name="tbxCity" Grid.Row="5" Margin="0,0,0,12"
+                 materialDesign:HintAssist.Hint="City"
+                 Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+
+        <TextBox x:Name="tbxEircode" Grid.Row="6" Margin="0,0,0,12"
+                 materialDesign:HintAssist.Hint="Eircode"
+                 Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+
+        <CheckBox x:Name="chkIsActive" Grid.Row="7" Content="Active" Margin="0,0,0,12" IsChecked="True"/>
+
+        <StackPanel Grid.Row="9" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button x:Name="btnCancel" Content="Cancel" Margin="0,0,8,0"
+                    Style="{StaticResource MaterialDesignOutlinedButton}"
+                    Click="btnCancel_Click"/>
+            <Button x:Name="btnSave" Content="Save Client"
+                    Style="{StaticResource MaterialDesignRaisedButton}"
+                    Click="btnSave_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

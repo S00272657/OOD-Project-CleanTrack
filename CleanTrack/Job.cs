@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace CleanTrack
 {
-    public class Job
+    public class Job : IComparable<Job>
     {
+        //properties
         public int JobId { get; set; }
         public string JobType { get; set; }
         public decimal Price { get; set; }
@@ -49,9 +50,12 @@ namespace CleanTrack
             Employees = new List<Employee>();
         }
 
-        //methods
-
-
+        // IComparable<Job> — sorts jobs chronologically by date
+        public int CompareTo(Job other)
+        {
+            if (other == null) return 1;
+            return this.Date.CompareTo(other.Date);
+        }
     }
 }
 

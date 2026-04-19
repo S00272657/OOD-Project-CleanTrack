@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,5 +13,12 @@ namespace CleanTrack
         public DbSet<Client> Clients { get; set; }
         public DbSet<Job> Jobs { get; set; }
         public DbSet<Employee> Employees { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            // Tell EF not to map Person as its own table — Client and Employee keep their own tables
+            modelBuilder.Ignore<Person>();
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

@@ -9,7 +9,7 @@
         Title="CleanTrack" Height="600" Width="1150" Loaded="MainWindow1_Loaded">
 
 
-    <TabControl>
+    <TabControl x:Name="tcMain" SelectionChanged="tcMain_SelectionChanged">
 
         <!-- JOBS -->
         <TabItem Name="Jobs" Header="Jobs" Width="Auto">
@@ -68,7 +68,7 @@
 
                 </WrapPanel>
 
-                <!--MAIN SECTION - List of results -->
+                <!--MAIN SECTION - list of results -->
                 <DataGrid x:Name="dgJobs" Grid.Row="2" Margin="0,0,0,8"
                     AutoGenerateColumns="False"
                     CanUserAddRows="False"
@@ -111,19 +111,19 @@
 
                 <!--TOP ROW - search & filter  -->
                 <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Left">
-                    <TextBox Width="200" Margin="0,0,8,8"
+                    <TextBox x:Name="tbxSearchClients" Width="200" Margin="0,0,8,8"
                              materialDesign:HintAssist.Hint="Search Clients..."
-                             Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+                             Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                             TextChanged="tbxSearchClients_TextChanged"/>
 
-                    <!--job type filter-->
-                    <ComboBox Width="150" Margin="0,0,8,8"
-                              materialDesign:HintAssist.Hint="To"
-                              Style="{StaticResource MaterialDesignOutlinedComboBox}">
-                        <ComboBoxItem Content="All"/>
-                        <ComboBoxItem Content="Scheduled"/>
-                        <ComboBoxItem Content="In Progress"/>
-                        <ComboBoxItem Content="Completed"/>
-                        <ComboBoxItem Content="Cancelled"/>
+                    <!--active status filter-->
+                    <ComboBox x:Name="cbxClientActiveFilter" Width="150" Margin="0,0,8,8"
+                              materialDesign:HintAssist.Hint="Status"
+                              Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                              SelectionChanged="cbxClientActiveFilter_SelectionChanged">
+                        <ComboBoxItem Content="All" IsSelected="True"/>
+                        <ComboBoxItem Content="Active"/>
+                        <ComboBoxItem Content="Inactive"/>
                     </ComboBox>
                 </StackPanel>
 
@@ -143,10 +143,10 @@
 
                 <!--BOTTOM ROW - action buttons - add/edit/delete/view details/customer count-->
                 <StackPanel Grid.Row="3" Orientation="Horizontal">
-                    <Button Content="New Client" Margin="0,0,8,0"></Button>
-                    <Button Content="Edit" Margin="0,0,8,0"></Button>
-                    <Button Content="Delete" Margin="0,0,8,0" Background="#FF9E0808"/>
-                    <Button Content="View Details"  Margin="0,0,8,0"></Button>
+                    <Button Content="New Client" Margin="0,0,8,0" Click="btnAddClient_Click"/>
+                    <Button Content="Edit" Margin="0,0,8,0" Style="{StaticResource MaterialDesignOutlinedButton}" Click="btnEditClient_Click"/>
+                    <Button Content="Delete" Margin="0,0,8,0" Background="#FF9E0808" BorderBrush="#FF9E0808" Click="btnDeleteClient_Click"/>
+                    <Button Content="View Details" Margin="0,0,8,0" Click="btnViewClientDetails_Click"/>
                 </StackPanel>
             </Grid>
 
@@ -207,31 +207,167 @@
 
                 <!-- BOTTOM ROW - action buttons -->
                 <StackPanel Grid.Row="2" Orientation="Horizontal">
-                    <Button x:Name="btnAddEmployee" Content="Add Employee" Margin="0,0,8,0"
-                        Style="{StaticResource MaterialDesignRaisedButton}" Click="btnAddEmployee_Click"
-                        />
+                    <Button x:Name="btnAddEmployee" Content="Add Employee" Margin="0,0,8,0" Click="btnAddEmployee_Click"/>
                     <Button x:Name="btnEditEmployee" Content="Edit" Margin="0,0,8,0"
-                        Style="{StaticResource MaterialDesignOutlinedButton}" Click="btnEditEmployee_Click"
-                        />
+                        Style="{StaticResource MaterialDesignOutlinedButton}" Click="btnEditEmployee_Click"/>
                     <Button x:Name="btnDeleteEmployee" Content="Delete" Margin="0,0,8,0"
-                        Style="{StaticResource MaterialDesignOutlinedButton}"
-                        Foreground="Red" Click="btnDeleteEmployee_Click"
-                        />
-                    <Button x:Name="btnViewEmployeeDetails" Content="View Details"
-                        Style="{StaticResource MaterialDesignOutlinedButton}" Click="btnViewEmployeeDetails_Click"
-                        />
+                        Background="#FF9E0808" BorderBrush="#FF9E0808" Click="btnDeleteEmployee_Click"/>
+                    <Button x:Name="btnViewEmployeeDetails" Content="View Details" Margin="0,0,8,0" Click="btnViewEmployeeDetails_Click"/>
                 </StackPanel>
             </Grid>
         </TabItem>
 
         <!-- CALENDAR -->
         <TabItem Name="Calendar" Header="Calendar" Width="Auto">
+            <Grid Margin="16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
+                <!-- Left: Calendar control -->
+                <StackPanel Grid.Column="0" Margin="0,0,24,0">
+                    <Calendar x:Name="calMain" SelectionMode="SingleDate"
+                              SelectedDatesChanged="calMain_SelectedDatesChanged"/>
+                    <TextBlock x:Name="tbxCalendarJobCount" Margin="0,8,0,0"
+                               FontSize="13" Foreground="Gray" HorizontalAlignment="Center"/>
+                </StackPanel>
+
+                <!-- Right: Jobs for selected date -->
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock x:Name="tbxCalendarDate" Grid.Row="0"
+                               FontSize="18" FontWeight="SemiBold" Margin="0,0,0,12"
+                               Text="Select a date to view jobs"/>
+
+                    <DataGrid x:Name="dgCalendarJobs" Grid.Row="1"
+                              AutoGenerateColumns="False"
+                              CanUserAddRows="False"
+                              IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Job Type" Binding="{Binding JobType}" Width="Auto"/>
+                            <DataGridTextColumn Header="Client" Binding="{Binding Client.FullName}" Width="Auto"/>
+                            <DataGridTextColumn Header="Address" Binding="{Binding Address}" Width="*"/>
+                            <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="Auto"/>
+                            <DataGridTextColumn Header="Price" Binding="{Binding Price, StringFormat=€{0:F2}}" Width="Auto"/>
+                            <DataGridTextColumn Header="Employees" Binding="{Binding AssignedEmployees}" Width="Auto"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </Grid>
         </TabItem>
 
-        <!-- REPORTTS -->
+        <!-- REPORTS -->
         <TabItem Name="Reports" Header="Reports" Width="Auto">
+            <Grid Margin="16">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
+                <!-- Summary stats -->
+                <Border Grid.Row="0" Background="#6A1B9A" CornerRadius="8" Padding="20,14" Margin="0,0,0,16">
+                    <WrapPanel Orientation="Horizontal">
+                        <StackPanel Margin="0,0,40,0">
+                            <TextBlock Text="Total Revenue (Completed)" FontWeight="SemiBold" Foreground="White"/>
+                            <TextBlock x:Name="txtTotalRevenue" FontSize="16" Margin="0,2,0,0" Foreground="White"/>
+                        </StackPanel>
+                        <StackPanel Margin="0,0,40,0">
+                            <TextBlock Text="Jobs This Month" FontWeight="SemiBold" Foreground="White"/>
+                            <TextBlock x:Name="txtJobsThisMonth" FontSize="16" Margin="0,2,0,0" Foreground="White"/>
+                        </StackPanel>
+                        <StackPanel Margin="0,0,40,0">
+                            <TextBlock Text="Active Clients" FontWeight="SemiBold" Foreground="White"/>
+                            <TextBlock x:Name="txtActiveClients" FontSize="16" Margin="0,2,0,0" Foreground="White"/>
+                        </StackPanel>
+                        <StackPanel>
+                            <TextBlock Text="Top Job Type" FontWeight="SemiBold" Foreground="White"/>
+                            <TextBlock x:Name="txtTopJobType" FontSize="16" Margin="0,2,0,0" Foreground="White"/>
+                        </StackPanel>
+                    </WrapPanel>
+                </Border>
+
+                <!--  Monthly | Weekly -->
+                <Grid Grid.Row="1" Grid.RowSpan="3">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="16"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- LEFT: Monthly breakdown -->
+                    <Grid Grid.Row="0" Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Text="Monthly Breakdown" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                        <DataGrid x:Name="dgMonthlyRevenue" Grid.Row="1"
+                                  AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Month"   Binding="{Binding Month}"       Width="*"/>
+                                <DataGridTextColumn Header="Jobs"    Binding="{Binding JobCount}"     Width="60"/>
+                                <DataGridTextColumn Header="Revenue" Binding="{Binding TotalRevenue, StringFormat=€{0:F2}}" Width="100"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+
+                    <!-- RIGHT: Weekly summary -->
+                    <Grid Grid.Row="0" Grid.Column="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Text="Weekly Summary" FontWeight="SemiBold" Margin="0,0,0,8"/>
+
+                        <!-- Week navigation -->
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,8">
+                            <Button x:Name="btnPrevWeek" Content="&lt; Prev" Margin="0,0,8,0"
+                                    Style="{StaticResource MaterialDesignOutlinedButton}"
+                                    Click="btnPrevWeek_Click"/>
+                            <TextBlock x:Name="txtWeekRange" VerticalAlignment="Center" Margin="4,0"/>
+                            <Button x:Name="btnNextWeek" Content="Next &gt;" Margin="8,0,0,0"
+                                    Style="{StaticResource MaterialDesignOutlinedButton}"
+                                    Click="btnNextWeek_Click"/>
+                        </StackPanel>
+
+                        <!-- Week stats -->
+                        <TextBlock x:Name="txtWeekStats" Grid.Row="2" Margin="0,0,0,8"/>
+
+                        <!-- Weekly jobs DataGrid -->
+                        <DataGrid x:Name="dgWeeklyJobs" Grid.Row="3"
+                                  AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Date"     Binding="{Binding Date, StringFormat=dd/MM/yyyy}" Width="95"/>
+                                <DataGridTextColumn Header="Client"   Binding="{Binding Client.FullName}"               Width="*"/>
+                                <DataGridTextColumn Header="Job Type" Binding="{Binding JobType}"                       Width="140"/>
+                                <DataGridTextColumn Header="Price"    Binding="{Binding Price, StringFormat=€{0:F2}}"   Width="80"/>
+                                <DataGridTextColumn Header="Status"   Binding="{Binding Status}"                        Width="100"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+
+                    <!-- Export buttons spans both columns -->
+                    <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal" Margin="0,12,0,0">
+                        <Button x:Name="btnExportJSON" Content="Export Monthly to JSON" Click="btnExportJSON_Click" Margin="0,0,8,0"/>
+                        <Button x:Name="btnExportWeeklyJSON" Content="Export Weekly to JSON" Click="btnExportWeeklyJSON_Click"
+                                Style="{StaticResource MaterialDesignOutlinedButton}"/>
+                    </StackPanel>
+                </Grid>
+            </Grid>
         </TabItem>
     </TabControl>
 </Window>
